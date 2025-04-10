@@ -59,45 +59,52 @@ public class Main {
         String selectedSauce = "";
 
         System.out.println("Welcome to the Custom Ice Cream Builder!\n");
-        System.out.println("Select your base ice cream flavor:");
 
-        // Output flavorBase map
-        for (Map.Entry<Integer, String> entry : flavorBase.entrySet()) {
-            System.out.println(entry.getKey() + ". " + entry.getValue());
-        }
-
-        // Get user input for flavor
-        userInput = scan.nextLine().trim();
-
-        // Check if user input is valid number
+        // Replace the current flavor selection code with this loop
         boolean validSelection = false;
-        for (Map.Entry<Integer, String> entry : flavorBase.entrySet()) {
-            if (userInput.equals(entry.getKey().toString())) {
-                userSelection.put(entry.getValue(), 1);
-                numIngredients++;
-                validSelection = true;
-                break; // Exit loop once we've found a match
+        while (!validSelection) {
+            System.out.println("Select your base ice cream flavor:");
+
+            // Output flavorBase map
+            for (Map.Entry<Integer, String> entry : flavorBase.entrySet()) {
+                System.out.println(entry.getKey() + ". " + entry.getValue());
+            }
+
+            // Get user input for flavor
+            userInput = scan.nextLine().trim();
+
+    // Check if user input is valid number
+    for(
+
+    Map.Entry<Integer, String> entry:flavorBase.entrySet())
+    {
+                if (userInput.equals(entry.getKey().toString())) {
+                    userSelection.put(entry.getValue(), 1);
+                    numIngredients++;
+                    validSelection = true;
+                    break; // Exit loop once we've found a match
+                }
+            }
+
+            if (!validSelection) {
+                System.out.println("Please enter a valid number (1-" + flavorBase.size() + ").");
             }
         }
-
-        if (!validSelection) {
-            System.out.println("Please enter a valid number.");
-            System.exit(0); // Exit the program if flavor selection is invalid
-        }
+    
+    
 
         // Prompt user for how many scoops they want
-        System.out.println("How many scoops? (1-3)");
-        userInput = scan.nextLine().trim();
+        boolean validScoops = false;
+        while (!validScoops) {
+            System.out.println("How many scoops? (1-3)");
+            userInput = scan.nextLine().trim();
 
-        if (userInput.equals("1")) {
-            numScoops = 1;
-        } else if (userInput.equals("2")) {
-            numScoops = 2;
-        } else if (userInput.equals("3")) {
-            numScoops = 3;
-        } else {
-            System.out.println("Please enter a valid number.");
-            System.exit(0); // Exit the program if scoops selection is invalid
+            if (userInput.equals("1") || userInput.equals("2") || userInput.equals("3")) {
+                numScoops = Integer.parseInt(userInput);
+                validScoops = true;
+            } else {
+                System.out.println("Please enter a valid number (1-3).");
+            }
         }
 
         boolean selectingToppings = true;
@@ -143,22 +150,30 @@ public class Main {
                         int maxServingsForTopping = toppingServings.get(selectedTopping);
                         String unit = toppingUnits.get(selectedTopping);
 
-                        // Ask user how many servings they want
-                        System.out.println("How many " + unit + "? (1-" + maxServingsForTopping + ")");
-                        String servingInput = scan.nextLine().trim();
+                        // Create a loop to repeatedly ask for valid serving size
+                        boolean validServingSize = false;
+                        while (!validServingSize) {
+                            // Ask user how many servings they want
+                            System.out.println("How many " + unit + "? (1-" + maxServingsForTopping + ")");
+                            String servingInput = scan.nextLine().trim();
 
-                        try {
-                            int servings = Integer.parseInt(servingInput);
+                            try {
+                                int servings = Integer.parseInt(servingInput);
 
-                            if (servings >= 1 && servings <= maxServingsForTopping) {
-                                // Add topping with specified quantity
-                                selectedToppings.add(selectedTopping);
-                                iceCreamSelections.put(selectedTopping, servings);
-                            } else {
-                                System.out.println("Please enter a number between 1 and " + maxServingsForTopping);
+                                if (servings >= 1 && servings <= maxServingsForTopping) {
+                                    // Add topping with specified quantity
+                                    selectedToppings.add(selectedTopping);
+                                    iceCreamSelections.put(selectedTopping, servings);
+                                    System.out.println("Added " + servings + " " + 
+                                        (servings == 1 ? unit.replaceAll("s$", "") : unit) + 
+                                        " of " + selectedTopping);
+                                    validServingSize = true; // Exit the serving size loop
+                                } else {
+                                    System.out.println("Please enter a number between 1 and " + maxServingsForTopping);
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Please enter a valid number.");
                             }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Please enter a valid number.");
                         }
                     }
                 } else {
