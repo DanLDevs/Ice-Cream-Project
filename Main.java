@@ -39,11 +39,24 @@ public class Main {
         toppingUnits.put("Gummies", "pieces");
         toppingUnits.put("Strawberries", "pieces");
 
+        // Declare Sauce map
+        Map<Integer, String> sauces = new HashMap<>();
+        sauces.put(1, "Hot Fudge");
+        sauces.put(2, "Caramel Sauce");
+
+        // Declare a map to hold max serving sizes for each sauce
+        Map<String, Integer> sauceServings = new HashMap<>();
+        sauceServings.put("Hot Fudge", 2);
+        sauceServings.put("Caramel Sauce", 2);
+
         // Declare user ice cream selections map
         Map<String, Integer> iceCreamSelections = new HashMap<>();
 
         // Declare user toppings selections list
         List<String> selectedToppings = new ArrayList<>();
+
+        // Declare user sauce selection
+        String selectedSauce = "";
 
         System.out.println("Welcome to the Custom Ice Cream Builder!\n");
         System.out.println("Select your base ice cream flavor:");
@@ -89,12 +102,23 @@ public class Main {
 
         boolean selectingToppings = true;
         while (selectingToppings) {
+            // Check if all toppings have been selected already
+            if (selectedToppings.size() >= toppings.size()) {
+                System.out.println("\nYou've selected all available toppings. Moving to sauce options...");
+                selectingToppings = false;
+                continue;
+            }
+
             // Prompt user for toppings
             System.out.println("\nSelect a topping (or 0 to finish):");
 
-            // Output toppings map
+            // Output remaining toppings
             for (Map.Entry<Integer, String> entry : toppings.entrySet()) {
-                System.out.println(entry.getKey() + ". " + entry.getValue());
+                String toppingName = entry.getValue();
+                // Only show toppings that haven't been selected yet
+                if (!selectedToppings.contains(toppingName)) {
+                    System.out.println(entry.getKey() + ". " + toppingName);
+                }
             }
 
             // Get user input for topping
@@ -145,6 +169,52 @@ public class Main {
             }
         }
 
+        String sauce = "";
+
+        int sauceInt = -1;
+        int sauceNum = 0;
+
+        while (sauceInt != 0 || sauceInt != 1 || sauceInt != 2) {
+            System.out.println("Select a sauce (or 0 to skip)");
+            for (Map.Entry<Integer, String> entry : sauces.entrySet()) {
+                System.out.println(entry.getKey() + ". " + entry.getValue());
+            }
+            sauceInt = scan.nextInt();
+            if (sauceInt == 1) {
+                sauce = "Hot Fudge";
+                while (sauceNum != 1 || sauceNum != 2) {
+                    System.out.println("how many spoonfuls (1 or 2)");
+                    sauceNum = scan.nextInt();
+                    if (sauceNum == 1) {
+                        break;
+                    } else if (sauceNum == 2) {
+                        break;
+                    } else {
+                        System.out.println("please enter valid amount.");
+                    }
+                }
+                break;
+            } else if (sauceInt == 2) {
+                sauce = "Caramel Sauce";
+                while (sauceNum != 1 || sauceNum != 2) {
+                    System.out.println("how many spoonfuls (1 or 2)");
+                    sauceNum = scan.nextInt();
+                    if (sauceInt == 1) {
+                        continue;
+                    } else if (sauceInt == 2) {
+                        continue;
+                    } else {
+                        System.out.println("please enter valid amount.");
+                    }
+                }
+                break;
+            } else if (sauceInt == 0) {
+                break;
+            } else {
+                System.out.println("please enter valid sauce.");
+            }
+        }
+
         // After collecting flavor, scoops, and toppings
         if (validSelection && numScoops > 0) {
             // Get the selected flavor from userSelection
@@ -186,6 +256,23 @@ public class Main {
             }
         } else {
             System.out.println("\nNo toppings selected.");
+        }
+
+        // Print sauces with quantities and units
+        if (sauceInt == 1) {
+            if (sauceNum == 1) {
+                System.out.println(sauce + "(" + sauceNum + " spoonful)");
+            } else {
+                System.out.println(sauce + "(" + sauceNum + " spoonfuls)");
+            }
+        } else if (sauceInt == 2) {
+            if (sauceNum == 1) {
+                System.out.println(sauce + "(" + sauceNum + " spoonful)");
+            } else {
+                System.out.println(sauce + "(" + sauceNum + " spoonfuls)");
+            }
+        } else {
+            System.out.println("\nNo sauces selected.");
         }
 
         System.out.println(
