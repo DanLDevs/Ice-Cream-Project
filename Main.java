@@ -182,13 +182,13 @@ public class Main {
             sauceInt = scan.nextInt();
             if (sauceInt == 1) {
                 sauce = "Hot Fudge";
-                while (sauceNum != 1 || sauceNum != 2) {
+                while (sauceNum != 1 && sauceNum != 2) {
                     System.out.println("how many spoonfuls (1 or 2)");
                     sauceNum = scan.nextInt();
                     if (sauceNum == 1) {
-                        break;
+                        break; // Exit the loop when valid quantity is entered
                     } else if (sauceNum == 2) {
-                        break;
+                        break; // Exit the loop when valid quantity is entered
                     } else {
                         System.out.println("please enter valid amount.");
                     }
@@ -196,7 +196,7 @@ public class Main {
                 break;
             } else if (sauceInt == 2) {
                 sauce = "Caramel Sauce";
-                while (sauceNum != 1 || sauceNum != 2) {
+                while (sauceNum != 1 && sauceNum != 2) {
                     System.out.println("how many spoonfuls (1 or 2)");
                     sauceNum = scan.nextInt();
                     if (sauceInt == 1) {
